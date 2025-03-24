@@ -1,0 +1,53 @@
+﻿{% extends 'catalog/base.html' %}
+
+{% block title %}{{ ssd.brand }} {{ ssd.model }}{% endblock %}
+
+{% block content %}
+<div class="row g-5">
+    <!-- Изображение -->
+    <div class="col-md-6">
+        <div class="card shadow">
+            <img src="https://via.placeholder.com/600x400" class="card-img-top product-image p-4" alt="{{ ssd.model }}">
+        </div>
+    </div>
+
+    <!-- Характеристики -->
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1 class="card-title mb-4">{{ ssd.brand }} {{ ssd.model }}</h1>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="text-primary">{{ ssd.price }} ₽</h2>
+                    <span class="badge bg-success">В наличии</span>
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Артикул:</dt>
+                    <dd class="col-sm-8">{{ ssd.sku }}</dd>
+
+                    <dt class="col-sm-4">Интерфейс:</dt>
+                    <dd class="col-sm-8"><span class="badge bg-primary">{{ ssd.interface }}</span></dd>
+
+                    <dt class="col-sm-4">Объем:</dt>
+                    <dd class="col-sm-8">{{ ssd.capacity_gb }} ГБ</dd>
+
+                    <dt class="col-sm-4">Скорость чтения:</dt>
+                    <dd class="col-sm-8">{{ ssd.read_speed }} MB/s</dd>
+
+                    <dt class="col-sm-4">Скорость записи:</dt>
+                    <dd class="col-sm-8">{{ ssd.write_speed }} MB/s</dd>
+                </dl>
+
+                <div class="d-grid gap-2 d-md-flex mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Назад
+                    </a>
+                    <button class="btn btn-primary">
+                        <i class="bi bi-cart"></i> В корзину
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
