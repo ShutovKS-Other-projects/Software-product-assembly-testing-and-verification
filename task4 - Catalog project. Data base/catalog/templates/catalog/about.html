@@ -1,0 +1,38 @@
+﻿{% extends 'catalog/base.html' %}
+
+{% block title %}О нас{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light p-5 mb-4 rounded-3">
+    <div class="container">
+        <h1 class="display-4">О нашем магазине</h1>
+        <p class="lead">Ваш надежный партнер в мире SSD-накопителей</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow h-100">
+            <div class="card-body">
+                <h3><i class="bi bi-star-fill text-warning"></i> Почему мы?</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="bi bi-check2-circle text-success"></i> Только оригинальная продукция</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle text-success"></i> Гарантия до 5 лет</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle text-success"></i> Бесплатная доставка от 10 000₽</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle text-success"></i> Профессиональная консультация</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow h-100">
+            <div class="card-body">
+                <h3><i class="bi bi-info-circle-fill text-primary"></i> О компании</h3>
+                <p>Мы специализируемся на продаже SSD-накопителей ведущих мировых брендов. Наш опыт работы на рынке компьютерных комплектующих - более 10 лет.</p>
+                <p>В нашем ассортименте представлены решения для любых задач: от бюджетных моделей для офисной работы до высокопроизводительных NVMe дисков для геймеров и профессионалов.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
