@@ -1,0 +1,132 @@
+﻿{% extends 'catalog/base.html' %}
+{% load custom_tags %}
+{% load static param_replace %}
+
+{% block title %}Главная{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Каталог SSD</h1>
+
+    <!-- Форма фильтрации и сортировки -->
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="search">Поиск:</label>
+                    <input type="text" class="form-control" id="search" name="search" value="{{ params.search }}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="sort">Сортировка:</label>
+                    <select class="form-control" id="sort" name="sort">
+                        {% for value, label in sort_options %}
+                        <option value="{{ value }}" {% if params.sort== value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="interface">Интерфейс:</label>
+                    <select class="form-control" id="interface" name="interface">
+                        <option value="">Все</option>
+                        {% for interface in interfaces %}
+                        <option value="{{ interface.name }}" {% if params.interface== interface.name %}selected{% endif
+                                %}>{{ interface.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="min_price">Мин. цена:</label>
+                    <input type="number" class="form-control" id="min_price" name="min_price"
+                           value="{{ params.min_price }}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="max_price">Макс. цена:</label>
+                    <input type="number" class="form-control" id="max_price" name="max_price"
+                           value="{{ params.max_price }}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="form_factor">Форм-фактор:</label>
+                    <select class="form-control" id="form_factor" name="form_factor">
+                        <option value="">Все</option>
+                        {% for form_factor in form_factors %}
+                        <option value="{{ form_factor.name }}" {% if params.form_factor== form_factor.name %}selected{%
+                                endif %}>{{ form_factor.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Применить</button>
+    </form>
+
+    <!-- Список товаров -->
+    <div class="row">
+        {% for ssd in ssd_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ ssd.brand }} {{ ssd.model }}</h5>
+                    <p class="card-text">
+                        <strong>Артикул:</strong> {{ ssd.sku }}<br>
+                        <strong>Объем:</strong> {{ ssd.capacity_gb }} ГБ<br>
+                        <strong>Интерфейс:</strong> {{ ssd.interface }}<br>
+                        <strong>Форм-фактор:</strong> {{ ssd.form_factor }}<br>
+                        <strong>Цена:</strong> {{ ssd.price }} ₽<br>
+                        {% if ssd.warranty_years %}
+                        <strong>Гарантия:</strong> {{ ssd.warranty_years }} лет
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'detail' ssd.id %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>Товары не найдены</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    {% if is_paginated %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ page_obj.previous_page_number }}{% for key, value in params.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Предыдущая</a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link"
+                   href="?page={{ num }}{% for key, value in params.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{
+                    num }}</a>
+            </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="?page={{ page_obj.next_page_number }}{% for key, value in params.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Следующая</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

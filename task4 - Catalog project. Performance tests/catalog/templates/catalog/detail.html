@@ -1,0 +1,80 @@
+﻿{% extends "base.html" %}
+
+{% block title %}{{ object.brand }} {{ object.model }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Каталог</a></li>
+            <li class="breadcrumb-item active">{{ object.brand }} {{ object.model }}</li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">{{ object.brand }} {{ object.model }}</h1>
+            <p class="text-muted">Артикул: {{ object.sku }}</p>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h4>Основные характеристики</h4>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Объем:</th>
+                            <td>{{ object.capacity_gb }} ГБ</td>
+                        </tr>
+                        <tr>
+                            <th>Интерфейс:</th>
+                            <td>{{ object.interface }}</td>
+                        </tr>
+                        <tr>
+                            <th>Форм-фактор:</th>
+                            <td>{{ object.form_factor }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h4>Производительность</h4>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Скорость чтения:</th>
+                            <td>{{ object.read_speed }} МБ/с</td>
+                        </tr>
+                        <tr>
+                            <th>Скорость записи:</th>
+                            <td>{{ object.write_speed }} МБ/с</td>
+                        </tr>
+                        {% if object.warranty_years %}
+                        <tr>
+                            <th>Гарантия:</th>
+                            <td>{{ object.warranty_years }} лет</td>
+                        </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h4>Цена и наличие</h4>
+                <p class="h2 text-primary">{{ object.price }} ₽</p>
+                <p class="{% if object.in_stock %}text-success{% else %}text-danger{% endif %}">
+                    {% if object.in_stock %}
+                    В наличии
+                    {% else %}
+                    Нет в наличии
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'home' %}" class="btn btn-secondary">Вернуться в каталог</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
