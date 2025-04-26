@@ -1,0 +1,24 @@
+[run]
+omit =
+    */migrations/*
+    */manage.py
+    */settings.py
+    */wsgi.py
+    */asgi.py
+    */__init__.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.: 
+    def __repr__
+    def __str__
+    def __unicode__
+    def __getattr__
+    def __setattr__
+    def __delattr__
+    def __weakref__
+    raise AssertionError
+    raise NotImplementedError
+    if self.debug
+    if settings.DEBUG 
