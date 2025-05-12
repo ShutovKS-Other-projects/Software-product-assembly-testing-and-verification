@@ -1,0 +1,50 @@
+﻿services:
+  db:
+    image: postgres:16-alpine
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER" ]
+      interval: 5s
+      retries: 10
+
+  init:
+    build: .
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+        python manage.py migrate --noinput &&
+        python manage.py seed_catalog --number=100 &&
+        python manage.py seed_demo
+      "
+    restart: "no"
+  
+  web:
+    build: .
+    env_file: .env
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    volumes:
+      - static_volume:/app/staticfiles
+    command: gunicorn catalog_project.wsgi:application -b 0.0.0.0:8000 -w 4 --timeout 60
+    expose: [ "8000" ]
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - static_volume:/static
+    depends_on:
+      web:
+        condition: service_started
+
+volumes:
+  pg_data:
+  static_volume:

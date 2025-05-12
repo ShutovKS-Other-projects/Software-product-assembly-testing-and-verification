@@ -1,0 +1,9 @@
+﻿Faker~=37.0.2
+Django~=5.1.7
+django_seed
+psycopg2
+coverage
+gunicorn>=23.0.0
+flake8 
+black 
+isort
